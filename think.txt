@@ -1,0 +1,26 @@
+motion eye os:
+make it such that people can plug in their own scripts. make it the most modifiable.
+what a camera would do. what would people want it to do?
+
+it would capture the images, process it and do whatever stuff they would want and then may be they would want to save it.
+
+basic feature without modular design will require:
+capturing the images
+motion detection
+camera displacement detection
+compiling the images (in which motion has been detected) into video footage and then saving them
+database of schema (footageID,time,duration)
+
+
+advance features with modular design:
+all above features +
+
+user permissions
+Zone alerts (Zone based detection/Intrution detection) => (motion detection in certain areas)
+timing Alerts (like motion detection at unusual timings)
+Blurring specific zones (may be to maintain privacy)
+automatic threshold adjustments based on weather (rain/snow)
+
+optional for now:
+Integretion with Home automation
+
