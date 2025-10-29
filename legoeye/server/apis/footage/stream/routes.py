@@ -36,6 +36,12 @@ def start_stream_footage():
         start_epoc = data['start_epoc']
         end_epoc = data['end_epoc']
 
+        logger.info("*"*20)
+        
+        logger.info(f"start epoc : {start_epoc}")
+        logger.info(f"end epoc : {end_epoc}")
+        
+        logger.info("*"*20)
 
         clips_detail_list = db.get_clips_in_range(start_ts=start_epoc, end_ts=end_epoc)
 
@@ -51,12 +57,47 @@ def start_stream_footage():
             clips_detail_list=clips_detail_list,
             precise=False,
             )
+        
+        #!why taking so long?
         time.sleep(6)
+        print("woke after 6 secs")
+        print("stream id = ", stream_id)
+        
 
         return jsonify({
             'clips_detail':clips_detail_list,
             'streamID':stream_id
             })
+        
+
+
+@footage_stream_bp.route('/<footage_stream_id>/status')
+def get_footage_stream_status(footage_stream_id:str):
+    '''Serves the video footage stream status'''
+        
+    try:
+
+        if os.path.exists(f'{os.path.join(paths.FOOTAGE_STREAM_DIR,footage_stream_id)}'):
+            if os.path.exists(f'{os.path.join(paths.FOOTAGE_STREAM_DIR,footage_stream_id)}/master.m3u8'):
+                return jsonify({
+                    'status' : 'ready'
+                })
+            else:
+                return jsonify({
+                    'status':'pending',
+                })
+        else:
+            return "Invalid request", 400
+
+    except ssl.SSLEOFError:
+        logger.critical('ssl Exception occurred!')
+        stopstrm()
+    except Exception as e:
+        logger.critical(f'Exception occurred:\n {e}')
+        stopstrm()
+
+
+
 
 @footage_stream_bp.route('/<footage_stream_id>/<filename>')
 def get_footage_stream_file(footage_stream_id:str, filename:str):
@@ -64,6 +105,14 @@ def get_footage_stream_file(footage_stream_id:str, filename:str):
         
     try:
         if (filename == "master.m3u8"):
+            logger.info('|'*30)
+            logger.info(f'{os.path.join(paths.FOOTAGE_STREAM_DIR,footage_stream_id)}/master.m3u8')
+            logger.info(os.listdir(os.path.join(paths.FOOTAGE_STREAM_DIR,footage_stream_id)))
+            if os.path.exists(f'{os.path.join(paths.FOOTAGE_STREAM_DIR,footage_stream_id)}/master.m3u8'):
+                logger.info("file exists")
+            else:
+                logger.warn("file doesn't exist")
+            logger.info('|'*30)
             return send_from_directory(os.path.join(paths.FOOTAGE_STREAM_DIR,footage_stream_id), "master.m3u8")
         else:
             if not '/' in filename or filename.endswith('.ts'):

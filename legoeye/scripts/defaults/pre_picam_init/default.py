@@ -1,6 +1,8 @@
 from utils.logger import Logger
 from core.picam import PicamManager
 import time
+from .callbacks import main as callback_main
+
 
 SCRIPT_NAME = "Default"
 
@@ -38,6 +40,7 @@ def main():
 
         picamMngr.encoder.output=picamMngr.outputs
         
+        picamMngr.picam2.pre_callback = callback_main
 
         picamMngr.picam2.start()
 

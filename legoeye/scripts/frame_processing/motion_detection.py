@@ -2,7 +2,7 @@ import time
 import numpy as np
 from utils.config import Config
 from core.record import recordManager
-from legoeye.utils.record import startRecording, stopRecording
+from utils.record import startRecording, stopRecording
 from utils.logger import Logger
 
 
@@ -44,7 +44,8 @@ def main(params):
                 logger.info(f"Motion detected - recording started; mse: {mse}")
             ltime = time.time()
         else:
-            end_timestamp = time.time()
+            end_timestamp = time.time()          
             if recordMngr.isRecording and end_timestamp - ltime > post_buffer_seconds:
+                logger.info(f"Motion not detected - recording stopped; mse: {mse}")
                 stopRecording()
     prev = cur

@@ -16,7 +16,11 @@ def run_server():
 
     app = Flask(__name__)
     origins = ["http://localhost:3000", "https://192.168.1.7:5000"]
-    CORS(app, origins= origins)
+    CORS(app, 
+         origins= origins,   
+         allow_headers=["Content-Type", "Authorization", "X-Requested-With"], 
+         methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"]
+         )
 
 
     logger.info(f"CORS origins allowed : {json.dumps(origins)}")

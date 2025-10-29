@@ -188,37 +188,42 @@ class Config:
             "motion_detection": {
                 "THRESHOLD": 7,
                 "PRE_MOTION_BUFFER_SECONDS": 5,
-                "POST_MOTION_BUFFER_SECONDS": 160
+                "POST_MOTION_BUFFER_SECONDS": 5
             },
             "scripts": {
-                "DIR":"scripts"
+                "DIR":"scripts",
+                "frame_processing_scripts_settings": {
+                    "TYPE": "frame_processing",
+                    "DIR": "frame_processing",
+                    "SCRIPTS_EXECUTION_LOOP_INTERVAL_IN_SECONDS": 0.1,
+                    "SCRIPTS": [
+                    "motion_detection.py"
+                    ]
+                },
+                "defaults":{
+                    "TYPE": "defaults",
+                    "DIR": "defaults",
+                    "pre_picam_init_scripts_settings": {
+                        "TYPE": "pre_picam_init",
+                        "DIR": "pre_picam_init",
+                        "SCRIPTS": [
+                            "default.py"
+                            ]
+                        },
+                    "post_picam_init_scripts_settings": {
+                        "TYPE": "post_picam_init",
+                        "DIR": "post_picam_init",
+                        "SCRIPTS": [
+                        "default.py",
+                        "frame_processing.py"
+                        ]
+                    },
+                    "pre_callback_scripts_settings":{
+                        "DIR":"pre_callback"
+                    },
+                },
             },
-            "frame_processing_scripts_settings": {
-                "TYPE": "frame_processing",
-                "DIR": "frame_processing",
-                "SCRIPTS_EXECUTION_LOOP_INTERVAL_IN_SECONDS": 0.1,
-                "SCRIPTS": [
-                "motion_detection.py"
-                ]
-            },
-            "pre_picam_init_scripts_settings": {
-                "TYPE": "pre_picam_init",
-                "DIR": "pre_picam_init",
-                "SCRIPTS": [
-                "default.py"
-                ]
-            },
-            "post_picam_init_scripts_settings": {
-                "TYPE": "post_picam_init",
-                "DIR": "post_picam_init",
-                "SCRIPTS": [
-                "default.py",
-                "frame_processing.py"
-                ]
-            },
-            "pre_callback_scripts_settings":{
-                "DIR":"pre_callback"
-            },
+            
             "security": {
                 "ENABLE_AUTHENTICATION": False,
                 "USERNAME": "",

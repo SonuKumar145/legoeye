@@ -31,10 +31,12 @@ class Paths:
         self.REL_FOOTAGE_STREAM_DIR = self.config.get('streaming.FOOTAGE_STREAM_DIR')
 
         self.REL_SCRIPTS_DIR = self.config.get('scripts.DIR')
+
+        self.REL_DEFAULT_SCRIPTS_DIR = self.config.get('scripts.defaults.DIR')
         
-        self.REL_FRAME_PROCESSING_SCRIPTS_DIR = os.path.join( self.REL_SCRIPTS_DIR, self.config.get('frame_processing_scripts_settings.DIR'))
-        self.REL_PRE_PICAM_INIT_SCRIPT_DIR = os.path.join( self.REL_SCRIPTS_DIR, self.config.get('pre_picam_init_scripts_settings.DIR'))
-        self.REL_POST_PICAM_INIT_SCRIPT_DIR = os.path.join( self.REL_SCRIPTS_DIR, self.config.get('post_picam_init_scripts_settings.DIR'))
+        self.REL_FRAME_PROCESSING_SCRIPTS_DIR = os.path.join( self.REL_SCRIPTS_DIR, self.config.get('scripts.frame_processing_scripts_settings.DIR'))
+        self.REL_PRE_PICAM_INIT_SCRIPT_DIR = os.path.join( self.REL_SCRIPTS_DIR, self.REL_DEFAULT_SCRIPTS_DIR, self.config.get('scripts.defaults.pre_picam_init_scripts_settings.DIR'))
+        self.REL_POST_PICAM_INIT_SCRIPT_DIR = os.path.join( self.REL_SCRIPTS_DIR, self.REL_DEFAULT_SCRIPTS_DIR, self.config.get('scripts.defaults.post_picam_init_scripts_settings.DIR'))
         
         self.REL_LOG_FILE_PATH = os.path.join(self.config.get('log.DIR'), self.config.get('log.FILE_NAME'))
         self.REL_DB_PATH = os.path.join(self.config.get('database.DIR'),self.config.get('database.DB_NAME'))

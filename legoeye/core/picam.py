@@ -69,6 +69,8 @@ class PicamManager:
             if not (current_status == encoder_status):
                 if current_status:
                     self.picam2.start_encoder(self.encoder)
+                    logger.info(f"Encoder started__")
+
                 else:
                     self.picam2.stop_encoder()
                 encoder_status = current_status

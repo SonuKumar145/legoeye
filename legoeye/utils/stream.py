@@ -196,7 +196,7 @@ def startConcatedFFmpegStream(stream_id:str,clips_detail_list:list, start_epoc:i
     logger.debug("[startConcatedFFmpegStream] Concated input: ", input)
 
     if (start_epoc <= int(clips_detail_list[0]['timestamp'])):
-        start_timestamp = None
+        start_timestamp = None 
     else:
         diff_secs = start_epoc - int(clips_detail_list[0]['timestamp'])
 

@@ -9,7 +9,6 @@ from utils.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
-
 class scriptManager:
 
     _instance = None
@@ -27,27 +26,32 @@ class scriptManager:
         return cls._instance
 
     def init(self):
-        self.mains_of_frame_processing_scripts = self.mains_of_scripts_builder(self.config.get("frame_processing_scripts_settings.TYPE"))
-        self.mains_of_pre_picam_init_scripts = self.mains_of_scripts_builder(self.config.get("pre_picam_init_scripts_settings.TYPE"))
-        self.mains_of_post_picam_init_scripts = self.mains_of_scripts_builder(self.config.get("post_picam_init_scripts_settings.TYPE"))
+
+        self.frame_processing_type = self.config.get("scripts.frame_processing_scripts_settings.TYPE")
+        self.pre_picam_init_type = self.config.get("scripts.defaults.pre_picam_init_scripts_settings.TYPE")
+        self.post_picam_init_type = self.config.get("scripts.defaults.post_picam_init_scripts_settings.TYPE")
+
+        self.mains_of_frame_processing_scripts = self.mains_of_scripts_builder(self.frame_processing_type)
+        self.mains_of_pre_picam_init_scripts = self.mains_of_scripts_builder(self.pre_picam_init_type)
+        self.mains_of_post_picam_init_scripts = self.mains_of_scripts_builder(self.post_picam_init_type)
         
 
     def script_detail_returner(self, script_type):
-            if(script_type == self.config.get("frame_processing_scripts_settings.TYPE")):
+            if(script_type == self.frame_processing_type):
                 return {                     
-                'script': "frame_processing_scripts_settings.SCRIPTS",
+                'script': "scripts.frame_processing_scripts_settings.SCRIPTS",
                 'script_dir': self.paths.FRAME_PROCESSING_SCRIPTS_DIR
                 }
                 
-            elif(script_type == self.config.get("pre_picam_init_scripts_settings.TYPE")):
+            elif(script_type == self.pre_picam_init_type):
                 return {                     
-                'script' : "pre_picam_init_scripts_settings.SCRIPTS",
+                'script' : "scripts.defaults.pre_picam_init_scripts_settings.SCRIPTS",
                 'script_dir' : self.paths.PRE_PICAM_INIT_SCRIPT_DIR
                 }
 
-            elif(script_type == self.config.get("post_picam_init_scripts_settings.TYPE")):
+            elif(script_type == self.post_picam_init_type):
                 return {
-                'script' : "post_picam_init_scripts_settings.SCRIPTS",
+                'script' : "scripts.defaults.post_picam_init_scripts_settings.SCRIPTS",
                 'script_dir' : self.paths.POST_PICAM_INIT_SCRIPT_DIR
                 }
             else:
@@ -142,9 +146,9 @@ class scriptManager:
             script_arr = script_details['script']
             scriptdir = script_details['script_dir']
 
-            frame_processing_type = self.config.get("frame_processing_scripts_settings.TYPE")
-            pre_picam_init_type = self.config.get("pre_picam_init_scripts_settings.TYPE")
-            post_picam_init_type = self.config.get("post_picam_init_scripts_settings.TYPE")
+            frame_processing_type = self.frame_processing_type
+            pre_picam_init_type = self.pre_picam_init_type
+            post_picam_init_type = self.post_picam_init_type
 
             if script_type == frame_processing_type:
                 rel_script_dir = self.paths.REL_FRAME_PROCESSING_SCRIPTS_DIR
