@@ -88,7 +88,7 @@ def kickstart(overrides=None):
 
     from recovery.recovery import recover
     from recovery.last_time import time_writer_thread
-    from server.server import run_server
+    from server.server import server_app
 
     # █░█ ▀█▀ █ █░░ █▀
     # █▄█ ░█░ █ █▄▄ ▄█
@@ -128,8 +128,8 @@ def kickstart(overrides=None):
 
     # █▀ █▀▀ █▀█ █░█ █▀▀ █▀█
     # ▄█ ██▄ █▀▄ ▀▄▀ ██▄ █▀▄
-    run_server()
-    logger.info("Flask server started!")
+    logger.info("Starting Flask server!")
+    return server_app()
 
 
 #--------------------------------------------
@@ -140,4 +140,12 @@ def kickstart(overrides=None):
 #--------------------------------------------
 
 if __name__ == "__main__":
-    kickstart()
+    # For dev mode: Run full kickstart, get app, then start dev server
+    app = kickstart()  # This runs all init
+    if app:
+        ssl_cert = "/home/lulbro/.sslkeys/cert.pem"
+        ssl_key = "/home/lulbro/.sslkeys/key.pem"
+
+        app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False, ssl_context=(ssl_cert, ssl_key))
+    else:
+        print("Failed to initialize app.")
