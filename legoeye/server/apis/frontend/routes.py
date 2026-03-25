@@ -16,7 +16,6 @@ frontend_bp = Blueprint(
 )
 @frontend_bp.route('/')
 def index():
-    print("YEAHHHHHH I AM BEING HIT!!!!!!!!!!!!!!!!!!!!!!")
     return send_from_directory(frontend_bp.static_folder, "index.html")
 
 # Serve all other files
